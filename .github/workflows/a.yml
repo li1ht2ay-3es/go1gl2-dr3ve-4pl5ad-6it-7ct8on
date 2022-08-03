@@ -1,0 +1,60 @@
+on:
+#  push:
+  workflow_dispatch:
+    inputs:
+      get_link:
+        required: true
+#
+      packed_name:
+        default: packed
+#
+      compress_level:
+        default: "0"
+
+
+jobs:
+
+  gdrive-encrypt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: li1ht2ay-3es/ac1io2s@checkout-branch
+        with:
+          token: ${{ secrets.token }}
+          auto: true
+
+
+
+      - run: |
+          if [[ "${{ inputs.packed_name }}" == "" ]]; then
+            packed_name="packed.7z"
+          else
+            packed_name="${{ inputs.packed_name }}.7z"
+          fi
+
+          echo "out_file=$packed_name" >> $GITHUB_ENV
+
+
+
+      - run: |
+          ID=${{ inputs.get_link }}
+          ID=${ID#*/d/}
+          ID=${ID%/*}
+
+
+          curl -L "https://www.googleapis.com/drive/v3/files/$ID?key=${{ secrets.gdrive_apikey }}" > info.txt
+          JSON=$(<info.txt)
+          FILE=${JSON#*\"name\": \"}
+          FILE=${FILE%\",*\"mimeType\"*}
+
+
+          curl -L "https://www.googleapis.com/drive/v3/files/${ID}?alt=media&key=${{ secrets.gdrive_apikey }}" > $FILE
+          7za a -p${{ secrets.gdrive_crypto }} -mx=${{ inputs.compress_level }} -mhe=on ${{ env.out_file }} $FILE
+
+
+
+      - uses: li1ht2ay-3es/go1gl2-dr3ve-4pl5ad-6it-7ct8on@upstream
+        with:
+          credentials: ${{ secrets.gdrive_key }}
+          folderId: ${{ secrets.gdrive_folder }}
+          filename: ${{ env.out_file }}
