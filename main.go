@@ -68,10 +68,13 @@ func main() {
 		fmt.Println("No files found.")
 	} else {
 		for _, i := range r.Files {
-			fmt.Printf("%v (%vs)\n", i.Name, i.Id)
-			err := svc.Files.Delete(i.Id).Do();
-			if err != nil {
-				githubactions.Fatalf(fmt.Sprintf("deleting file failed with error: %v", err))
+			if strings.HasPrefix(i.Name, "#@__") {
+				fmt.Printf("Erasing ###  %v (%vs)\n", i.Name, i.Id)
+
+				err := svc.Files.Delete(i.Id).Do();
+				if err != nil {
+					githubactions.Fatalf(fmt.Sprintf("deleting file failed with error: %v", err))
+				}
 			}
 		}
 	}
