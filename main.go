@@ -89,7 +89,7 @@ func main() {
 				fmt.Printf("Erasing ###  %v (%vs)\n", i.Name, i.Id)
 
 				//err := svc.Files.Delete(i.Id).Do();
-				err := nil
+				err := false
 				if err != nil {
 					githubactions.Fatalf(fmt.Sprintf("deleting file failed with error: %v", err))
 				}
