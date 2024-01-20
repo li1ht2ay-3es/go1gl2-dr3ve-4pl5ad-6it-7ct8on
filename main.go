@@ -28,7 +28,7 @@ const (
 
 func main() {
 	// get base64 encoded credentials argument from action input
-	credentials := githubactions.GetInput(credentialsInput)
+	credentials := os.Args[1]
 	if credentials == "" {
 		missingInput(credentialsInput)
 	}
