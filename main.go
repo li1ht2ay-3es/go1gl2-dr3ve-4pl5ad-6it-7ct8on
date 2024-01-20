@@ -65,7 +65,11 @@ func main() {
 		log.Fatalf("Unable to retrieve files: %v", err)
 	}
 
-	fmt.Print("[drive-", driveNum, "]  Files:\n")
+	if os.Args[2] != "" {
+		fmt.Print("[", os.Args[2], "]  ");
+	}
+
+	fmt.Println("Files:")
 	if len(r.Files) != 0 {
 		for _, i := range r.Files {
 			if strings.HasPrefix(i.Name, "#@__") {
