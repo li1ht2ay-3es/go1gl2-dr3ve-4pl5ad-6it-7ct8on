@@ -60,7 +60,15 @@ func main() {
 		log.Println(err)
 	}
 
-	r, err := svc.Files.List().Q("'root' in parents").Do()
+	//r, err := svc.Files.List().Q("'root' in parents").Do()
+	r, err := svc.Files.List().
+		Q("'me' in owners").
+		Fields("files(id,name,size),nextPageToken").
+		OrderBy("name").
+		PageSize(1000).
+		IncludeItemsFromAllDrives(true).
+		SupportsAllDrives(true).
+		Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve files: %v", err)
 	}
@@ -72,7 +80,6 @@ func main() {
 	fmt.Println("Files: ")
 	if len(r.Files) != 0 {
 		for _, i := range r.Files {
-			fmt.Println("%v\n", i.Name)
 			if strings.HasPrefix(i.Name, "#@__") {
 				fmt.Printf("Erasing ###  %v (%vs)\n", i.Name, i.Id)
 
