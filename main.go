@@ -13,6 +13,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/sethvargo/go-githubactions"
