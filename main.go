@@ -89,10 +89,9 @@ func main() {
 				fmt.Printf("Erasing ###  %v (%vs)\n", i.Name, i.Id)
 
 				//err := svc.Files.Delete(i.Id).Do();
-				err := false
-				if err != nil {
-					githubactions.Fatalf(fmt.Sprintf("deleting file failed with error: %v", err))
-				}
+				//if err != nil {
+					//githubactions.Fatalf(fmt.Sprintf("deleting file failed with error: %v", err))
+				//}
 			}
 		}
 		fmt.Printf("%.2f GB used / 15 GB total\n\n", float32(driveSize) / 1024.0 / 1024.0 / 1024.0)
