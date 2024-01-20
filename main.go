@@ -64,10 +64,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Unable to retrieve files: %v", err)
 	}
-	fmt.Println("Files:")
-	if len(r.Files) == 0 {
-		fmt.Println("No files found.")
-	} else {
+
+	fmt.Print("[drive-", driveNum, "]  Files:\n")
+	if len(r.Files) != 0 {
 		for _, i := range r.Files {
 			if strings.HasPrefix(i.Name, "#@__") {
 				fmt.Printf("Erasing ###  %v (%vs)\n", i.Name, i.Id)
