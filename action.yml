@@ -15,7 +15,7 @@ runs:
   using: composite
   steps:
     - name: Setup Golang
-      uses: actions/setup-go@v3
+      uses: actions/setup-go
       with:
         go-version: ${{ inputs.go-version }}
         go-version-file: ${{ inputs.go-version-file }}
@@ -26,7 +26,7 @@ runs:
         echo "module=$(go env GOMODCACHE)" >>"$GITHUB_OUTPUT"
       shell: bash
     - name: Setup Golang cache
-      uses: actions/cache@v3
+      uses: actions/cache
       with:
         path: |
           ${{ steps.golang-path.outputs.build }}
