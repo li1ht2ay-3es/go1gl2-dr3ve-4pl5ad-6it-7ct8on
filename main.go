@@ -124,15 +124,18 @@ func main() {
 						fmt.Printf("Copied %v (%vs)\n", i.Name, i.Id)
 						driveSize -= copyFile.Size
 
-						movedFile := drive.File{}
-						_, err := svc.Files.Update(i.Id, &movedFile).
-								AddParents(trashId).
-								RemoveParents(srcId).
-								SupportsAllDrives(true).
-								Do()
-						if err != nil {
-							//log.Println(err)
-							//log.Println(fmt.Sprintf("%v -- %v  [%d / %d]", err, i.Name, i.Size, driveSize))
+						for ok := true; ok; ok = true {
+							movedFile := drive.File{}
+							_, err := svc.Files.Update(i.Id, &movedFile).
+									AddParents(trashId).
+									RemoveParents(srcId).
+									SupportsAllDrives(true).
+									Do()
+							if err == nil {
+								break;
+								//log.Println(err)
+								//log.Println(fmt.Sprintf("%v -- %v  [%d / %d]", err, i.Name, i.Size, driveSize))
+							}
 						}
 					} else {
 						//log.Println(err)
